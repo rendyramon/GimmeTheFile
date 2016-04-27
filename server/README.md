@@ -14,7 +14,7 @@ python-3.5.1 # Or whatever version you want.
 
 Make a requirements.txt with (use virtualenv):
 ```
-python freeze > requirements.txt
+pip freeze > requirements.txt
 ```
 
 After you have everything set-up, remember to add BASE_URL to app.properties in the root directory.
