@@ -1,0 +1,18 @@
+<resources>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_formats">FormatsActivity</string>
+    <string name="loading_formats">Loading formats…</string>
+    <string name="title_activity_download">DownloadActivity</string>
+    <string name="retry">Retry</string>
+    <string name="recommended">Recommended</string>
+    <string name="clicktostart">Click the + button below to start</string>
+    <string name="nointernetconnection">No internet connection</string>
+    <string name="invalidurl">URL is invalid</string>
+    <string name="default_download_folder">GimmeTheFile</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="pref_download_location">pref_download_location</string>
+    <string name="pref_about">pref_about</string>
+    <string name="download_location">Download location</string>
+    <string name="choose">Choose</string>
+    <string name="settings_preferences">GimmeSettings</string>
+</resources>

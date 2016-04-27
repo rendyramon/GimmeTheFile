@@ -1,0 +1,6 @@
+venv/
+activate.bat
+startdyno.bat
+stopdyno.bat
+Procfile
+runtime.txt

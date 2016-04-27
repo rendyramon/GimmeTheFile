@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#D32F2F</color>
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorAccent">#97a8e2</color>
+
+    <color name="colorTextPrimary">#212121</color>
+    <color name="colorTextSecondary">#727272</color>
+    <color name="colorDivider">#1bb6b6b6</color>
+
+    <color name="colorFormatButton">#6c41b9</color>
+    <color name="colorGoldRecommended">#FFD700</color>
+</resources>

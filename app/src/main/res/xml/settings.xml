@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:title="Download location"
+        android:key="@string/pref_download_location"
+        android:defaultValue="GimmeTheFile"
+        android:summary="Choose where files will be saved"
+        />
+
+    <PreferenceScreen
+        android:title="About"
+        android:key="@string/pref_about"
+        />
+</PreferenceScreen>
