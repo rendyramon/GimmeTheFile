@@ -3,7 +3,7 @@ package com.drivfe.gimmethefile;
 public class Config {
     public static final String BASE_URL = BuildConfig.BASE_URL;
 
-    public static String DOWNLOAD_FOLDER = ""; // set in GimmeApplication
+    public static String DOWNLOAD_FOLDER; // set in GimmeApplication
 
     // Download service
     public static final String ACTION_START_DOWNLOAD_SERVICE = "com.drivfe.gimmethefile.action.startdownloadservice";

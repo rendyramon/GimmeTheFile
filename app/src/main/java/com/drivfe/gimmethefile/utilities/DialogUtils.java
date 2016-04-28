@@ -17,7 +17,6 @@ import android.widget.Button;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.drivfe.gimmethefile.BuildConfig;
 import com.drivfe.gimmethefile.R;
 import com.drivfe.gimmethefile.activities.FormatsActivity;
 import com.drivfe.gimmethefile.adapters.PlayerAdapter;
@@ -29,8 +28,6 @@ import java.util.Map;
 
 public class DialogUtils {
     public static void showBucketInfoDialog(final Activity activity, MediaFileBucket bucket) {
-        final Context ctx = (Context) activity;
-
         StringBuilder sb = new StringBuilder();
         List<String> fieldsToIgnore = new ArrayList<>();
         fieldsToIgnore.add("url");
@@ -47,7 +44,7 @@ public class DialogUtils {
             }
 
             if (key.equals("filesize") && value != null)
-                value = Formatter.formatFileSize(ctx, (Long) value);
+                value = Formatter.formatFileSize(activity, (Long) value);
 
             if (key.equals("duration") && value != null)
                 value = value + " seconds";
@@ -57,7 +54,7 @@ public class DialogUtils {
         }
         Spanned headers = Html.fromHtml(sb.toString());
 
-        new MaterialDialog.Builder(ctx)
+        new MaterialDialog.Builder(activity)
                 .title("More information")
                 .content(headers)
                 .positiveText("Ok")
@@ -115,9 +112,6 @@ public class DialogUtils {
                     til_link.setError("Invalid URL");
                 } else {
                     ctx.startActivity(FormatsActivity.newIntent(ctx, link));
-//                    Intent formats = new Intent(ctx, FormatsActivity.class);
-//                    formats.putExtra(Intent.EXTRA_TEXT, link);
-//                    ctx.startActivity(formats);
                     b.dismiss();
                 }
             }
@@ -139,19 +133,7 @@ public class DialogUtils {
         });
     }
 
-    public static void showAboutDialog(Context context) {
-        StringBuilder about = new StringBuilder();
-        about.append("Version: ")
-                .append(BuildConfig.VERSION_NAME);
-
-        new MaterialDialog.Builder(context)
-                .title(context.getString(R.string.app_name))
-                .content(about)
-                .positiveText("Ok")
-                .show();
-    }
-
-    public static void showOpenPlayerDialog(Context context, String url, PlayerAdapter.PlayerItemClickListener listener) {
-        new OpenPlayerDialog(context, url, listener).show();
+    public static void showOpenPlayerDialog(Context context, PlayerAdapter.PlayerItemClickListener listener) {
+        new OpenPlayerDialog(context, listener).show();
     }
 }

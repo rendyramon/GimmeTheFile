@@ -40,7 +40,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func0;
 import rx.schedulers.Schedulers;
@@ -120,14 +119,12 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
     @Override
     public void onFormatOpenClicked(int position) {
         final String url = mBucket.formats.get(position).url;
-        DialogUtils.showOpenPlayerDialog(this, url, new PlayerAdapter.PlayerItemClickListener() {
+        DialogUtils.showOpenPlayerDialog(this, new PlayerAdapter.PlayerItemClickListener() {
             @Override
             public void onItemClicked(ActivityInfo ai) {
                 Intent open = new Intent(Intent.ACTION_VIEW);
                 open.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                open.setType("video/*");
-                String[] mimetypes = {"audio/*", "video/*"};
-                open.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
+                open.setType("video/*");
                 open.setData(Uri.parse(url));
                 open.setComponent(new ComponentName(ai.packageName, ai.name));
                 startActivity(open);

@@ -55,7 +55,7 @@ public class HelperUtils {
                 fieldsMap.put(field.getName(), field.get(cls));
             }
         } catch (IllegalAccessException e) {
-            Timber.e(e, "createInfoHeaders");
+            Timber.e(e, "getClassFields");
         }
 
         return fieldsMap;

@@ -28,14 +28,12 @@ import butterknife.ButterKnife;
 public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHolder> {
     private final Context mContext;
     private FormatCardListener mListener;
-    private MediaFileBucket mBucket;
     private ArrayList<MediaFileFormat> mFormats;
     private static FormatClickListener mClickListener;
 
     public FormatsAdapter(Context ctx, FormatCardListener listener, MediaFileBucket bucket) {
         mListener = listener;
         mContext = ctx;
-        mBucket = bucket;
         mFormats = bucket.formats;
         mClickListener = new FormatClickListener();
     }

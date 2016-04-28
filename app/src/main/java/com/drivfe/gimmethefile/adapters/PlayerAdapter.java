@@ -24,13 +24,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     private List<ResolveInfo> mAppsList;
     private Context mContext;
     private PlayerItemClickListener mListener;
-    private String mUrl;
 
-    public PlayerAdapter(Context context, String url, PlayerItemClickListener listener) {
+    public PlayerAdapter(Context context, PlayerItemClickListener listener) {
         mContext = context;
         mListener = listener;
-        mUrl = url;
-
         PackageManager pm = mContext.getPackageManager();
         Intent open = new Intent(Intent.ACTION_VIEW);
         open.setType("video/*");
