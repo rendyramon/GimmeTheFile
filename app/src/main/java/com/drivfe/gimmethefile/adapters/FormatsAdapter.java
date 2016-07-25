@@ -51,10 +51,10 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
             Object value = entry.getValue();
 
             if (key.equals("filesize") && value != null)
-                value = Formatter.formatFileSize(mContext, (Long)value);
+                value = Formatter.formatFileSize(mContext, (Long) value);
 
             if (key.equals("duration") && value != null)
-                value = value +" seconds";
+                value = value + " seconds";
 
             if (fieldsToIgnore.indexOf(key) == -1 && value != null)
                 formatInfo.put(key, value.getClass().cast(value));
@@ -74,7 +74,7 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
         for (Object v : s)
             b.append(v).append("\n");
 
-        return b.deleteCharAt(b.length()-1).toString();
+        return b.deleteCharAt(b.length() - 1).toString();
     }
 
     @Override
@@ -99,13 +99,20 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tv_format_info_keys) TextView mFormatKeys;
-        @Bind(R.id.tv_format_info_values) TextView mFormatValues;
-        @Bind(R.id.btn_format_download) Button mDownload;
-        @Bind(R.id.btn_format_open) Button mOpen;
-        @Bind(R.id.btn_format_share) Button mShare;
-        @Bind(R.id.tv_format_recommended) TextView mRecommended;
-        @Bind(R.id.iv_format_best) ImageView mRecommendedIcon;
+        @Bind(R.id.tv_format_info_keys)
+        TextView mFormatKeys;
+        @Bind(R.id.tv_format_info_values)
+        TextView mFormatValues;
+        @Bind(R.id.btn_format_download)
+        Button mDownload;
+        @Bind(R.id.btn_format_open)
+        Button mOpen;
+        @Bind(R.id.btn_format_share)
+        Button mShare;
+        @Bind(R.id.tv_format_recommended)
+        TextView mRecommended;
+        @Bind(R.id.iv_format_best)
+        ImageView mRecommendedIcon;
         public int position;
 
         public ViewHolder(View v) {
@@ -125,7 +132,7 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
         @Override
         public void onClick(View v) {
             ViewHolder vh = (ViewHolder) v.getTag();
-            switch(v.getId()){
+            switch (v.getId()) {
                 case R.id.btn_format_download:
                     mListener.onFormatDownloadClicked(vh.position);
                     break;

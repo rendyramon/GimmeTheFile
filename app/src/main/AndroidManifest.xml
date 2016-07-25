@@ -68,19 +68,19 @@
                 android:value="com.drivfe.gimmethefile.activities.FormatsActivity" />
         </activity>
 
-        <activity android:name=".activities.SettingsActivity"
+        <activity
+            android:name=".activities.SettingsActivity"
             android:label="Settings"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
-            android:parentActivityName=".activities.MainActivity"
-            />
+            android:parentActivityName=".activities.MainActivity" />
 
-        <activity android:name=".activities.AboutActivity"
+        <activity
+            android:name=".activities.AboutActivity"
             android:label="About"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
-            android:parentActivityName=".activities.SettingsActivity"
-            />
+            android:parentActivityName=".activities.SettingsActivity" />
 
         <service android:name=".download.DownloadService" />
 

@@ -42,7 +42,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = ((ViewHolder)v.getTag()).position;
+                int position = ((ViewHolder) v.getTag()).position;
                 mListener.onItemClicked(mAppsList.get(position).activityInfo);
             }
         });
@@ -63,9 +63,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tv_openplayer_name) TextView mPlayerName;
-        @Bind(R.id.iv_openplayer_logo) ImageView mLogo;
+        @Bind(R.id.tv_openplayer_name)
+        TextView mPlayerName;
+        @Bind(R.id.iv_openplayer_logo)
+        ImageView mLogo;
         int position;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

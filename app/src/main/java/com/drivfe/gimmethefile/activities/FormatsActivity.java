@@ -50,14 +50,22 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
     private static final String EXTRA_LINK = Intent.EXTRA_TEXT;
     private static final String EXTRA_BUCKET = "EXTRA_BUCKET";
 
-    @Bind(R.id.rv_formats) RecyclerView mFormatsList;
-    @Bind(R.id.pb_loading) ProgressBar mLoadingBar;
-    @Bind(R.id.tv_format_loading_error) TextView mLoadingError;
-    @Bind(R.id.btn_formats_retry) Button mRetryButton;
-    @Bind(R.id.ll_pb_loading_formats) LinearLayout mLinearLayoutProgress;
-    @Bind(R.id.collapsing_formats) CollapsingToolbarLayout mCollapsing;
-    @Bind(R.id.iv_formats) ImageView mCollapsingImage;
-    @Bind(R.id.fab_formats) FloatingActionButton fab;
+    @Bind(R.id.rv_formats)
+    RecyclerView mFormatsList;
+    @Bind(R.id.pb_loading)
+    ProgressBar mLoadingBar;
+    @Bind(R.id.tv_format_loading_error)
+    TextView mLoadingError;
+    @Bind(R.id.btn_formats_retry)
+    Button mRetryButton;
+    @Bind(R.id.ll_pb_loading_formats)
+    LinearLayout mLinearLayoutProgress;
+    @Bind(R.id.collapsing_formats)
+    CollapsingToolbarLayout mCollapsing;
+    @Bind(R.id.iv_formats)
+    ImageView mCollapsingImage;
+    @Bind(R.id.fab_formats)
+    FloatingActionButton fab;
 
     RecyclerView.Adapter mAdapter;
     MediaFileBucket mBucket;
@@ -145,8 +153,7 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
         if (!DownloadService.isRunning) {
             startActivity(DownloadActivity.newIntent(this, new DownloadEntry(mBucket, mBucket.formats.get(position))));
             finish();
-        }
-        else {
+        } else {
             DialogUtils.showErrorDialog(this, "There is already a download in progress. Please wait until it is finished.", null, false);
         }
     }
@@ -184,8 +191,7 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
             mLoadingError.setText("Failed to connect, server may be restarting.");
             mLoadingBar.setVisibility(View.GONE);
             mRetryButton.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             DialogUtils.showErrorDialog(this, exc.getDefaultErrorMessage(), exc.getDefaultErrorMessageMore());
         }
     }
@@ -200,9 +206,7 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
             mLoadingError.setText(R.string.nointernetconnection);
             mLoadingBar.setVisibility(View.GONE);
             mRetryButton.setVisibility(View.VISIBLE);
-        }
-
-        else {
+        } else {
             mLoadingError.setText(getString(R.string.loading_formats));
             mLoadingBar.setVisibility(View.VISIBLE);
             mRetryButton.setVisibility(View.GONE);
@@ -212,7 +216,8 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<MediaFileBucket>() {
                         @Override
-                        public void onCompleted() {}
+                        public void onCompleted() {
+                        }
 
                         @Override
                         public void onError(Throwable e) {

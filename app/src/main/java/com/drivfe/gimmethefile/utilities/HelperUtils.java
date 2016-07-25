@@ -38,7 +38,7 @@ public class HelperUtils {
 
     public static MediaFileBucket refactorBucket(MediaFileBucket bucket) {
         Collections.reverse(bucket.formats); // best is last
-        for (Iterator<MediaFileFormat> iter = bucket.formats.iterator() ; iter.hasNext();) {
+        for (Iterator<MediaFileFormat> iter = bucket.formats.iterator(); iter.hasNext(); ) {
             MediaFileFormat format = iter.next();
             if (format.protocol.equals("m3u8") || format.protocol.equals("m3u8_native")) {
                 iter.remove();
@@ -115,7 +115,7 @@ public class HelperUtils {
     }
 
     public static void makeToast(Context ctx, String text, Boolean largo) {
-        Toast.makeText(ctx.getApplicationContext(), text, largo?Toast.LENGTH_LONG:Toast.LENGTH_SHORT).show();
+        Toast.makeText(ctx.getApplicationContext(), text, largo ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
     }
 
     public static void setAppDownloadDirectory(Context context, String newFolder) {
@@ -129,7 +129,7 @@ public class HelperUtils {
             newFolder = context.getString(R.string.default_download_folder);
 
         if (newFolder.contains(emulatedGarbage))
-            newFolder = newFolder.substring(emulatedGarbage.length()+1);
+            newFolder = newFolder.substring(emulatedGarbage.length() + 1);
 
         Config.DOWNLOAD_FOLDER = newFolder;
 

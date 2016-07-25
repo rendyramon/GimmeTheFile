@@ -36,7 +36,8 @@ public class DownloadManager {
         return instance;
     }
 
-    private DownloadManager() {}
+    private DownloadManager() {
+    }
 
     public void addDownload(DownloadEntry entry) {
         mEntry = entry;
@@ -71,7 +72,9 @@ public class DownloadManager {
         mTask.cancel(true);
     }
 
-    public boolean isPaused() { return mTask.isPaused(); }
+    public boolean isPaused() {
+        return mTask.isPaused();
+    }
 
     private class FileDownloadTask extends AsyncTask<Void, Void, Boolean> {
         private final int BUFFER_SIZE = 1024 * 8;
@@ -84,7 +87,7 @@ public class DownloadManager {
 
         public FileDownloadTask(DownloadEntry entry) {
             mEntry = entry;
-            mTempFile = new File(mEntry.getDest().getAbsolutePath()+".unfinished");
+            mTempFile = new File(mEntry.getDest().getAbsolutePath() + ".unfinished");
             mDownloaded = 0;
             mFinished = false;
         }
@@ -93,7 +96,9 @@ public class DownloadManager {
             return mFinished;
         }
 
-        public boolean isPaused() { return mPaused; }
+        public boolean isPaused() {
+            return mPaused;
+        }
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -110,8 +115,8 @@ public class DownloadManager {
                 if (statusCode == 403) {
                     throw new UnauthorizedException("The app is not authorized to access this link",
                             "Some websites, like Youtube, have videos " +
-                            "that are restricted to a certain country, age group or only logged in accounts." +
-                            "This app does not currently support any methods to bypass these restrictions."
+                                    "that are restricted to a certain country, age group or only logged in accounts." +
+                                    "This app does not currently support any methods to bypass these restrictions."
                             , 403);
                 }
 
@@ -125,7 +130,7 @@ public class DownloadManager {
 
                 while (true) {
                     int readAmount = inputStream.read(buff);
-                    if(readAmount == -1){
+                    if (readAmount == -1) {
                         break;
                     }
 
@@ -171,9 +176,7 @@ public class DownloadManager {
             if (exc != null) {
                 mListenerDelegate.onDownloadError(exc);
                 mTempFile.delete();
-            }
-
-            else {
+            } else {
                 mTempFile.renameTo(mEntry.getDest());
                 mListenerDelegate.onDownloadFinished(mEntry.getDest());
             }
@@ -191,9 +194,7 @@ public class DownloadManager {
                 Timber.d("onCancelled: Download paused");
                 Timber.d("onCancelled: downloaded: " + mDownloaded + "/" + mContentLength);
                 mListenerDelegate.onDownloadPaused();
-            }
-
-            else {
+            } else {
                 Timber.d("onCancelled: Download cancelled");
                 mTempFile.delete();
                 mListenerDelegate.onDownloadCancelled();

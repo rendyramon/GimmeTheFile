@@ -40,16 +40,24 @@ import timber.log.Timber;
 public class DownloadActivity extends AppCompatActivity implements DownloadListener {
     private static final String EXTRA_ENTRY = "EXTRA_ENTRY";
 
-    @Bind(R.id.pb_download_progress) ProgressBar mDownloadProgress;
-    @Bind(R.id.tv_download_percentage) TextView mProgressText;
-    @Bind(R.id.tv_download_title) TextView mTitleText;
-    @Bind(R.id.tv_download_extractor) TextView mExtractorText;
-    @Bind(R.id.tv_download_bytes) TextView mBytesText;
-    @Bind(R.id.btn_download_cancel) Button mCancelButton;
-    @Bind(R.id.btn_download_pause_resume) Button mPauseButton;
-    @Bind(R.id.btn_download_open) Button mOpenButton;
+    @Bind(R.id.pb_download_progress)
+    ProgressBar mDownloadProgress;
+    @Bind(R.id.tv_download_percentage)
+    TextView mProgressText;
+    @Bind(R.id.tv_download_title)
+    TextView mTitleText;
+    @Bind(R.id.tv_download_extractor)
+    TextView mExtractorText;
+    @Bind(R.id.tv_download_bytes)
+    TextView mBytesText;
+    @Bind(R.id.btn_download_cancel)
+    Button mCancelButton;
+    @Bind(R.id.btn_download_pause_resume)
+    Button mPauseButton;
+    @Bind(R.id.btn_download_open)
+    Button mOpenButton;
 
-//    private DownloadService mDownloadService;
+    //    private DownloadService mDownloadService;
 //    private boolean mBound = false;
     DownloadManager DMInstance = DownloadManager.getInstance();
     private MediaFileBucket mBucket;
@@ -140,10 +148,10 @@ public class DownloadActivity extends AppCompatActivity implements DownloadListe
 
     @Override
     public void onDownloadProgress(long progress, long total) {
-        Timber.d("onDownloadProgress: "+progress+"/"+total);
-        int percentage = (int)((float)progress/(float)total*100f);
+        Timber.d("onDownloadProgress: " + progress + "/" + total);
+        int percentage = (int) ((float) progress / (float) total * 100f);
         mDownloadProgress.setProgress(percentage);
-        mProgressText.setText(percentage+"%");
+        mProgressText.setText(percentage + "%");
 
         mBytesText.setText(Formatter.formatFileSize(this, progress) + "/" + Formatter.formatFileSize(this, total));
     }
@@ -174,12 +182,12 @@ public class DownloadActivity extends AppCompatActivity implements DownloadListe
         Timber.d("onStart");
 //        if (!mBound) {
 //            Timber.d("Binding service");
-            Intent intent = DownloadService.newIntent(this, mEntry);
-            intent.setAction(Config.ACTION_START_DOWNLOAD_SERVICE);
+        Intent intent = DownloadService.newIntent(this, mEntry);
+        intent.setAction(Config.ACTION_START_DOWNLOAD_SERVICE);
 //            bindService(intent, mServiceConnection, 0);
 //
-            if (!DownloadService.isRunning && mShouldStartService)
-                startService(intent);
+        if (!DownloadService.isRunning && mShouldStartService)
+            startService(intent);
 //        }
     }
 

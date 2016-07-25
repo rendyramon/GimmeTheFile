@@ -71,7 +71,7 @@ public class DownloadService extends Service implements DownloadListener {
         if (mDownloadManager.isPaused())
             mDownloadNotification.setContentInfo("Paused");
         else
-            mDownloadNotification.setContentInfo(mDownloadProgress+"%");
+            mDownloadNotification.setContentInfo(mDownloadProgress + "%");
 
         mDownloadNotification.setProgress(100, mDownloadProgress, false);
         mNotificationManager.notify(Config.NOTIFICATION_DOWNLOAD_ID, mDownloadNotification.build());
@@ -177,21 +177,20 @@ public class DownloadService extends Service implements DownloadListener {
         mNotificationManager.cancel(Config.NOTIFICATION_DOWNLOAD_ID);
         if (newEntry) {
             startDownload();
-        }
-        else
+        } else
             stopSelf();
     }
 
     @Override
     public void onDownloadProgress(long progress, long total) {
-        mDownloadProgress = (int) ((float) progress / (float) total*100f);
+        mDownloadProgress = (int) ((float) progress / (float) total * 100f);
     }
 
     @Override
     public void onDownloadFinished(File file) {
         Timber.d("onDownloadFinished");
 
-        if (mTimer!=null)
+        if (mTimer != null)
             mTimer.cancel();
         mNotificationManager.cancel(Config.NOTIFICATION_DOWNLOAD_ID);
         createFinishedNotification(file);

@@ -36,9 +36,7 @@ public class RequestUtils {
         if (!data.isEmpty() && httpResponse.header("Content-Type", "").equals("application/json")) {
             response = gson.fromJson(data, MediaFileBucket.class);
             response = HelperUtils.refactorBucket(response);
-        }
-
-        else {
+        } else {
             Timber.d("requestJson(URL): Content-Type not application/json");
             if (data.contains("ERROR: "))
                 data = data.substring("ERROR: ".length());

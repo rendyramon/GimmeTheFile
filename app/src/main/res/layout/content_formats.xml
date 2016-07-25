@@ -50,8 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/retry"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
     </LinearLayout>
 </RelativeLayout>
