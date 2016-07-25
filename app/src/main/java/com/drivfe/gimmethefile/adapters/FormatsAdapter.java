@@ -103,6 +103,7 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
         @Bind(R.id.tv_format_info_values) TextView mFormatValues;
         @Bind(R.id.btn_format_download) Button mDownload;
         @Bind(R.id.btn_format_open) Button mOpen;
+        @Bind(R.id.btn_format_share) Button mShare;
         @Bind(R.id.tv_format_recommended) TextView mRecommended;
         @Bind(R.id.iv_format_best) ImageView mRecommendedIcon;
         public int position;
@@ -115,6 +116,8 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
             mDownload.setTag(this);
             mOpen.setOnClickListener(mClickListener);
             mOpen.setTag(this);
+            mShare.setOnClickListener(mClickListener);
+            mShare.setTag(this);
         }
     }
 
@@ -129,6 +132,10 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
 
                 case R.id.btn_format_open:
                     mListener.onFormatOpenClicked(vh.position);
+                    break;
+
+                case R.id.btn_format_share:
+                    mListener.onFormatShareClicked(vh.position);
                     break;
             }
         }

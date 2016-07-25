@@ -133,6 +133,14 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
     }
 
     @Override
+    public void onFormatShareClicked(int position) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.putExtra(Intent.EXTRA_TEXT, mBucket.formats.get(position).url);
+        i.setType("text/plain");
+        startActivity(Intent.createChooser(i, "Share direct link!"));
+    }
+
+    @Override
     public void onFormatDownloadClicked(int position) {
         if (!DownloadService.isRunning) {
             startActivity(DownloadActivity.newIntent(this, new DownloadEntry(mBucket, mBucket.formats.get(position))));
