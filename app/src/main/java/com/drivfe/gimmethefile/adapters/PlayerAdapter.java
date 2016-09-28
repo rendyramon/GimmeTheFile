@@ -17,7 +17,7 @@ import com.drivfe.gimmethefile.R;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
@@ -63,9 +63,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tv_openplayer_name)
+        @BindView(R.id.tv_openplayer_name)
         TextView mPlayerName;
-        @Bind(R.id.iv_openplayer_logo)
+        @BindView(R.id.iv_openplayer_logo)
         ImageView mLogo;
         int position;
 

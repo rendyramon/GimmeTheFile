@@ -1,31 +1,17 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.21.4'
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
+apply plugin: 'com.neenbedankt.android-apt'
 
 def APP_NAME = "Gimme The File"
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.drivfe.gimmethefile"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "0.1"
 
@@ -50,7 +36,7 @@ android {
                 keyAlias = props['keyAlias']
                 keyPassword = props['keyPassword']
             } else {
-                throw new InvalidUserDataException("You should define 'storePassword' and 'keyPassword' in keystore.properties.")
+                throw new Exception("You should define 'storePassword' and 'keyPassword' in keystore.properties.")
             }
         }
     }
@@ -86,21 +72,22 @@ android {
     }
 }
 
-def final SUPPORT_VERSION = '23.3.0'
+def final SUPPORT_VERSION = '24.2.1'
 
 dependencies {
     compile "com.android.support:appcompat-v7:$SUPPORT_VERSION"
     compile "com.android.support:design:$SUPPORT_VERSION"
     compile "com.android.support:cardview-v7:$SUPPORT_VERSION"
-    compile "com.google.code.gson:gson:2.6"
-    compile "com.squareup.okhttp3:okhttp:3.2.0"
-    compile "com.jakewharton:butterknife:7.0.1"
+    compile "com.google.code.gson:gson:2.7"
+    compile "com.squareup.okhttp3:okhttp:3.4.1"
+    compile "com.jakewharton:butterknife:8.4.0"
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile "com.squareup.picasso:picasso:2.5.2"
-    compile "com.jakewharton.timber:timber:4.1.2"
-    compile "io.reactivex:rxandroid:1.1.0"
-    compile "io.reactivex:rxjava:1.1.3"
-    compile "com.github.medyo:android-about-page:1.0.2"
-    compile "com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar"
+    compile "com.jakewharton.timber:timber:4.3.1"
+    compile "io.reactivex:rxandroid:1.2.1"
+    compile "io.reactivex:rxjava:1.2.0"
+    compile "com.github.medyo:android-about-page:1.0.7"
+    compile "com.tbruyelle.rxpermissions:rxpermissions:0.7.1@aar"
     compile("com.github.afollestad.material-dialogs:core:0.8.5.7@aar") {
         transitive = true
     }

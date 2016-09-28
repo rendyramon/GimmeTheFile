@@ -31,7 +31,7 @@ import com.drivfe.gimmethefile.utilities.HelperUtils;
 
 import java.io.File;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.functions.Action1;
@@ -40,21 +40,21 @@ import timber.log.Timber;
 public class DownloadActivity extends AppCompatActivity implements DownloadListener {
     private static final String EXTRA_ENTRY = "EXTRA_ENTRY";
 
-    @Bind(R.id.pb_download_progress)
+    @BindView(R.id.pb_download_progress)
     ProgressBar mDownloadProgress;
-    @Bind(R.id.tv_download_percentage)
+    @BindView(R.id.tv_download_percentage)
     TextView mProgressText;
-    @Bind(R.id.tv_download_title)
+    @BindView(R.id.tv_download_title)
     TextView mTitleText;
-    @Bind(R.id.tv_download_extractor)
+    @BindView(R.id.tv_download_extractor)
     TextView mExtractorText;
-    @Bind(R.id.tv_download_bytes)
+    @BindView(R.id.tv_download_bytes)
     TextView mBytesText;
-    @Bind(R.id.btn_download_cancel)
+    @BindView(R.id.btn_download_cancel)
     Button mCancelButton;
-    @Bind(R.id.btn_download_pause_resume)
+    @BindView(R.id.btn_download_pause_resume)
     Button mPauseButton;
-    @Bind(R.id.btn_download_open)
+    @BindView(R.id.btn_download_open)
     Button mOpenButton;
 
     //    private DownloadService mDownloadService;

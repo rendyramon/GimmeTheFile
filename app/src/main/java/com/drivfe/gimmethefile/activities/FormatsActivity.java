@@ -36,7 +36,7 @@ import com.drivfe.gimmethefile.utilities.HelperUtils;
 import com.drivfe.gimmethefile.utilities.RequestUtils;
 import com.squareup.picasso.Picasso;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
@@ -50,21 +50,21 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
     private static final String EXTRA_LINK = Intent.EXTRA_TEXT;
     private static final String EXTRA_BUCKET = "EXTRA_BUCKET";
 
-    @Bind(R.id.rv_formats)
+    @BindView(R.id.rv_formats)
     RecyclerView mFormatsList;
-    @Bind(R.id.pb_loading)
+    @BindView(R.id.pb_loading)
     ProgressBar mLoadingBar;
-    @Bind(R.id.tv_format_loading_error)
+    @BindView(R.id.tv_format_loading_error)
     TextView mLoadingError;
-    @Bind(R.id.btn_formats_retry)
+    @BindView(R.id.btn_formats_retry)
     Button mRetryButton;
-    @Bind(R.id.ll_pb_loading_formats)
+    @BindView(R.id.ll_pb_loading_formats)
     LinearLayout mLinearLayoutProgress;
-    @Bind(R.id.collapsing_formats)
+    @BindView(R.id.collapsing_formats)
     CollapsingToolbarLayout mCollapsing;
-    @Bind(R.id.iv_formats)
+    @BindView(R.id.iv_formats)
     ImageView mCollapsingImage;
-    @Bind(R.id.fab_formats)
+    @BindView(R.id.fab_formats)
     FloatingActionButton fab;
 
     RecyclerView.Adapter mAdapter;

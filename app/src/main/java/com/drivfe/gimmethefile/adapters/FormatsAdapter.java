@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHolder> {
@@ -99,19 +99,19 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tv_format_info_keys)
+        @BindView(R.id.tv_format_info_keys)
         TextView mFormatKeys;
-        @Bind(R.id.tv_format_info_values)
+        @BindView(R.id.tv_format_info_values)
         TextView mFormatValues;
-        @Bind(R.id.btn_format_download)
+        @BindView(R.id.btn_format_download)
         Button mDownload;
-        @Bind(R.id.btn_format_open)
+        @BindView(R.id.btn_format_open)
         Button mOpen;
-        @Bind(R.id.btn_format_share)
+        @BindView(R.id.btn_format_share)
         Button mShare;
-        @Bind(R.id.tv_format_recommended)
+        @BindView(R.id.tv_format_recommended)
         TextView mRecommended;
-        @Bind(R.id.iv_format_best)
+        @BindView(R.id.iv_format_best)
         ImageView mRecommendedIcon;
         public int position;
 
