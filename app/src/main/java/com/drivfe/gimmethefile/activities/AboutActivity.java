@@ -1,6 +1,7 @@
 package com.drivfe.gimmethefile.activities;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -12,6 +13,7 @@ import android.widget.ScrollView;
 
 import com.drivfe.gimmethefile.BuildConfig;
 import com.drivfe.gimmethefile.R;
+import com.drivfe.gimmethefile.databinding.ActivityAboutBinding;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -20,16 +22,18 @@ import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
 
 public class AboutActivity extends AppCompatActivity {
+    ActivityAboutBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(createAboutView());
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_about);
+        createAboutView();
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private View createAboutView() {
+    private void createAboutView() {
         AboutPage page = new AboutPage(this);
         Element version = new Element(null, String.format("Version %s", BuildConfig.VERSION_NAME), null);
         Element supportedSites = new Element(null, "Supported sites", null);
@@ -70,14 +74,10 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         // Ugly stuff to get the page to work with the appbar
-        CoordinatorLayout about = (CoordinatorLayout) getLayoutInflater().inflate(R.layout.activity_about, null);
-        ScrollView aboutScroll = (ScrollView) about.findViewById(R.id.about_scroll_view);
         ScrollView ppp = (ScrollView) page.create();
         LinearLayout ll = (LinearLayout) ppp.getChildAt(0);
         ppp.removeView(ll);
 
-        aboutScroll.addView(ll);
-
-        return about;
+        binding.aboutScrollView.addView(ll);
     }
 }

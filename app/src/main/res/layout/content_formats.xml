@@ -1,56 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.drivfe.gimmethefile.activities.FormatsActivity"
-    tools:showIn="@layout/activity_formats">
-
-    <android.support.v7.widget.RecyclerView
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rv_formats"
-        android:scrollbars="vertical"
-        android:visibility="gone">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.drivfe.gimmethefile.activities.FormatsActivity"
+        tools:showIn="@layout/activity_formats">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_formats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:visibility="gone">
 
-    <LinearLayout
-        android:id="@+id/ll_pb_loading_formats"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/rv_formats"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="125dp"
-        android:orientation="vertical">
+        </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/tv_format_loading_error"
+        <LinearLayout
+            android:id="@+id/ll_pb_loading_formats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/loading_formats"
-            android:textSize="18sp"
-            android:textColor="@android:color/tertiary_text_dark"
-            android:layout_gravity="center_horizontal"
-            android:textIsSelectable="true" />
+            android:layout_alignTop="@+id/rv_formats"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="125dp"
+            android:orientation="vertical">
 
-        <ProgressBar
-            android:id="@+id/pb_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="250dp"
-            android:indeterminate="true"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+            <TextView
+                android:id="@+id/tv_format_loading_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/loading_formats"
+                android:textColor="@android:color/tertiary_text_dark"
+                android:textIsSelectable="true"
+                android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/btn_formats_retry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/retry"
-            android:visibility="gone" />
+            <ProgressBar
+                android:id="@+id/pb_loading"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:minWidth="250dp" />
 
-    </LinearLayout>
-</RelativeLayout>
+            <Button
+                android:id="@+id/btn_formats_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/retry"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
+

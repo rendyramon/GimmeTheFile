@@ -5,20 +5,16 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.drivfe.gimmethefile.R;
+import com.drivfe.gimmethefile.databinding.OpenPlayerListItemBinding;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
     private List<ResolveInfo> mAppsList;
@@ -37,24 +33,14 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RelativeLayout v = (RelativeLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.openplayer_list_item, parent, false);
-
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = ((ViewHolder) v.getTag()).position;
-                mListener.onItemClicked(mAppsList.get(position).activityInfo);
-            }
-        });
-
+        View v = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.open_player_list_item, parent, false).getRoot();
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mPlayerName.setText(mAppsList.get(position).loadLabel(mContext.getPackageManager()));
-        holder.mLogo.setImageDrawable(mAppsList.get(position).loadIcon(mContext.getPackageManager()));
-        holder.position = position;
+        holder.getBinding().tvOpenplayerName.setText(mAppsList.get(position).loadLabel(mContext.getPackageManager()));
+        holder.getBinding().ivOpenplayerLogo.setImageDrawable(mAppsList.get(position).loadIcon(mContext.getPackageManager()));
     }
 
     @Override
@@ -63,16 +49,22 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_openplayer_name)
-        TextView mPlayerName;
-        @BindView(R.id.iv_openplayer_logo)
-        ImageView mLogo;
-        int position;
+        private OpenPlayerListItemBinding binding;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setTag(this);
+            binding = DataBindingUtil.findBinding(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onItemClicked(mAppsList.get(getAdapterPosition()).activityInfo);
+                }
+            });
+        }
+
+        public OpenPlayerListItemBinding getBinding() {
+            return binding;
         }
     }
 

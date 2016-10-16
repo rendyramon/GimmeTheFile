@@ -4,27 +4,20 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.drivfe.gimmethefile.R;
 import com.drivfe.gimmethefile.adapters.FormatsAdapter;
 import com.drivfe.gimmethefile.adapters.PlayerAdapter;
+import com.drivfe.gimmethefile.databinding.ActivityFormatsBinding;
 import com.drivfe.gimmethefile.download.DownloadEntry;
 import com.drivfe.gimmethefile.download.DownloadService;
 import com.drivfe.gimmethefile.errors.BaseException;
@@ -36,8 +29,6 @@ import com.drivfe.gimmethefile.utilities.HelperUtils;
 import com.drivfe.gimmethefile.utilities.RequestUtils;
 import com.squareup.picasso.Picasso;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -50,44 +41,25 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
     private static final String EXTRA_LINK = Intent.EXTRA_TEXT;
     private static final String EXTRA_BUCKET = "EXTRA_BUCKET";
 
-    @BindView(R.id.rv_formats)
-    RecyclerView mFormatsList;
-    @BindView(R.id.pb_loading)
-    ProgressBar mLoadingBar;
-    @BindView(R.id.tv_format_loading_error)
-    TextView mLoadingError;
-    @BindView(R.id.btn_formats_retry)
-    Button mRetryButton;
-    @BindView(R.id.ll_pb_loading_formats)
-    LinearLayout mLinearLayoutProgress;
-    @BindView(R.id.collapsing_formats)
-    CollapsingToolbarLayout mCollapsing;
-    @BindView(R.id.iv_formats)
-    ImageView mCollapsingImage;
-    @BindView(R.id.fab_formats)
-    FloatingActionButton fab;
-
-    RecyclerView.Adapter mAdapter;
-    MediaFileBucket mBucket;
-    String mLink;
-    CompositeSubscription mSubscriptions = new CompositeSubscription();
+    private ActivityFormatsBinding binding;
+    private MediaFileBucket mBucket;
+    private String mLink;
+    private CompositeSubscription mSubscriptions = new CompositeSubscription();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_formats);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_formats);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ButterKnife.bind(this);
 
-        mCollapsing.setExpandedTitleMarginStart(48);
-        mCollapsing.setExpandedTitleMarginEnd(64);
-        mCollapsing.setContentScrimColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        mCollapsing.setTitle("Formats");
-        mCollapsing.setExpandedTitleTextAppearance(R.style.CollapsingExpandedTitle);
+        binding.collapsingFormats.setExpandedTitleMarginStart(48);
+        binding.collapsingFormats.setExpandedTitleMarginEnd(64);
+        binding.collapsingFormats.setContentScrimColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        binding.collapsingFormats.setTitle("Formats");
+        binding.collapsingFormats.setExpandedTitleTextAppearance(R.style.CollapsingExpandedTitle);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        binding.fabFormats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mBucket != null)
@@ -95,15 +67,15 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
             }
         });
 
-        mRetryButton.setOnClickListener(new View.OnClickListener() {
+        binding.formatsContent.btnFormatsRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 processLink();
             }
         });
 
-        mFormatsList.setHasFixedSize(true);
-        mFormatsList.setLayoutManager(new LinearLayoutManager(this));
+        binding.formatsContent.rvFormats.setHasFixedSize(true);
+        binding.formatsContent.rvFormats.setLayoutManager(new LinearLayoutManager(this));
 
         Bundle extras = savedInstanceState != null ? savedInstanceState : getIntent().getExtras();
 
@@ -164,16 +136,15 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
                     .load(mBucket.thumbnail)
                     .fit()
                     .centerCrop()
-                    .into(mCollapsingImage);
+                    .into(binding.ivFormats);
 
-        mCollapsing.setTitle(mBucket.title);
+        binding.collapsingFormats.setTitle(mBucket.title);
 
-        mFormatsList.setItemViewCacheSize(mBucket.formats.size());
-        mAdapter = new FormatsAdapter(this, this, mBucket);
-        mFormatsList.setAdapter(mAdapter);
+        binding.formatsContent.rvFormats.setItemViewCacheSize(mBucket.formats.size());
+        binding.formatsContent.rvFormats.setAdapter(new FormatsAdapter(this, this, mBucket));
 
-        mLinearLayoutProgress.setVisibility(View.GONE);
-        mFormatsList.setVisibility(View.VISIBLE);
+        binding.formatsContent.llPbLoadingFormats.setVisibility(View.GONE);
+        binding.formatsContent.rvFormats.setVisibility(View.VISIBLE);
     }
 
     public void bucketReceived(MediaFileBucket bkt) {
@@ -188,9 +159,9 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
 
     public void bucketError(BaseException exc) {
         if (exc instanceof FailedToConnectException) {
-            mLoadingError.setText("Failed to connect, server may be restarting.");
-            mLoadingBar.setVisibility(View.GONE);
-            mRetryButton.setVisibility(View.VISIBLE);
+            binding.formatsContent.tvFormatLoadingError.setText("Failed to connect, server may be restarting.");
+            binding.formatsContent.pbLoading.setVisibility(View.GONE);
+            binding.formatsContent.btnFormatsRetry.setVisibility(View.VISIBLE);
         } else {
             DialogUtils.showErrorDialog(this, exc.getDefaultErrorMessage(), exc.getDefaultErrorMessageMore());
         }
@@ -203,13 +174,13 @@ public class FormatsActivity extends AppCompatActivity implements FormatCardList
 
         if (!HelperUtils.isNetworkAvailable(this)) {
             Timber.d(getString(R.string.nointernetconnection));
-            mLoadingError.setText(R.string.nointernetconnection);
-            mLoadingBar.setVisibility(View.GONE);
-            mRetryButton.setVisibility(View.VISIBLE);
+            binding.formatsContent.tvFormatLoadingError.setText(R.string.nointernetconnection);
+            binding.formatsContent.pbLoading.setVisibility(View.GONE);
+            binding.formatsContent.btnFormatsRetry.setVisibility(View.VISIBLE);
         } else {
-            mLoadingError.setText(getString(R.string.loading_formats));
-            mLoadingBar.setVisibility(View.VISIBLE);
-            mRetryButton.setVisibility(View.GONE);
+            binding.formatsContent.tvFormatLoadingError.setText(getString(R.string.loading_formats));
+            binding.formatsContent.pbLoading.setVisibility(View.VISIBLE);
+            binding.formatsContent.btnFormatsRetry.setVisibility(View.GONE);
 
             mSubscriptions.add(getBucketObservable()
                     .subscribeOn(Schedulers.io())

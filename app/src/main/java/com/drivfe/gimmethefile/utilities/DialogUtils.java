@@ -33,6 +33,7 @@ public class DialogUtils {
         fieldsToIgnore.add("url");
         fieldsToIgnore.add("id");
         fieldsToIgnore.add("thumbnail");
+        fieldsToIgnore.add("serialVersionUID");
 
         for (Map.Entry<String, Object> entry : HelperUtils.getClassFields(bucket).entrySet()) {
             String key = entry.getKey();
@@ -86,8 +87,7 @@ public class DialogUtils {
     }
 
     public static void showLinkInputDialog(final Activity activity) {
-        final Context ctx = activity;
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ctx);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_link_input, null);
         dialogBuilder.setView(dialogView);
@@ -111,13 +111,13 @@ public class DialogUtils {
                 if (!HelperUtils.isValidUrl(link)) {
                     til_link.setError("Invalid URL");
                 } else {
-                    ctx.startActivity(FormatsActivity.newIntent(ctx, link));
+                    activity.startActivity(FormatsActivity.newIntent(activity, link));
                     b.dismiss();
                 }
             }
         });
 
-        final ClipboardManager cm = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
+        final ClipboardManager cm = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
         Button btnNeutral = b.getButton(AlertDialog.BUTTON_NEUTRAL);
         if (!cm.hasPrimaryClip() || !cm.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
             btnNeutral.setEnabled(false);

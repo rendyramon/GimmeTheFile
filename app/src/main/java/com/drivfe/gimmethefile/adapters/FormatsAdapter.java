@@ -1,17 +1,15 @@
 package com.drivfe.gimmethefile.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.drivfe.gimmethefile.R;
+import com.drivfe.gimmethefile.databinding.FormatsListItemBinding;
 import com.drivfe.gimmethefile.listeners.FormatCardListener;
 import com.drivfe.gimmethefile.models.MediaFileBucket;
 import com.drivfe.gimmethefile.models.MediaFileFormat;
@@ -21,9 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHolder> {
     private final Context mContext;
@@ -43,6 +38,7 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
         fieldsToIgnore.add("url");
         fieldsToIgnore.add("protocol");
         fieldsToIgnore.add("headers");
+        fieldsToIgnore.add("serialVersionUID");
 
         final Map<Object, Object> formatInfo = new HashMap<>();
 
@@ -65,7 +61,7 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
 
     @Override
     public FormatsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CardView v = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.formats_list_item, parent, false);
+        View v = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.formats_list_item, parent, false).getRoot();
         return new ViewHolder(v);
     }
 
@@ -79,17 +75,16 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.position = position;
         MediaFileFormat frm = mFormats.get(position);
 
         Map<Object, Object> info = createInfoHeaders(frm);
 
-        holder.mFormatKeys.setText(iterToString(info.keySet()));
-        holder.mFormatValues.setText(iterToString(info.values()));
+        holder.getBinding().tvFormatInfoKeys.setText(iterToString(info.keySet()));
+        holder.getBinding().tvFormatInfoValues.setText(iterToString(info.values()));
 
         if (position == 0) {
-            holder.mRecommended.setVisibility(View.VISIBLE);
-            holder.mRecommendedIcon.setVisibility(View.VISIBLE);
+            holder.getBinding().tvFormatRecommended.setVisibility(View.VISIBLE);
+            holder.getBinding().ivFormatBest.setVisibility(View.VISIBLE);
         }
     }
 
@@ -99,50 +94,40 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_format_info_keys)
-        TextView mFormatKeys;
-        @BindView(R.id.tv_format_info_values)
-        TextView mFormatValues;
-        @BindView(R.id.btn_format_download)
-        Button mDownload;
-        @BindView(R.id.btn_format_open)
-        Button mOpen;
-        @BindView(R.id.btn_format_share)
-        Button mShare;
-        @BindView(R.id.tv_format_recommended)
-        TextView mRecommended;
-        @BindView(R.id.iv_format_best)
-        ImageView mRecommendedIcon;
-        public int position;
+        private FormatsListItemBinding binding;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super(v);
-            ButterKnife.bind(this, v);
+            binding = DataBindingUtil.findBinding(v);
 
-            mDownload.setOnClickListener(mClickListener);
-            mDownload.setTag(this);
-            mOpen.setOnClickListener(mClickListener);
-            mOpen.setTag(this);
-            mShare.setOnClickListener(mClickListener);
-            mShare.setTag(this);
+            binding.btnFormatDownload.setOnClickListener(mClickListener);
+            binding.btnFormatDownload.setTag(this);
+            binding.btnFormatOpen.setOnClickListener(mClickListener);
+            binding.btnFormatOpen.setTag(this);
+            binding.btnFormatShare.setOnClickListener(mClickListener);
+            binding.btnFormatShare.setTag(this);
+        }
+
+        FormatsListItemBinding getBinding() {
+            return binding;
         }
     }
 
-    public class FormatClickListener implements View.OnClickListener {
+    private class FormatClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             ViewHolder vh = (ViewHolder) v.getTag();
             switch (v.getId()) {
                 case R.id.btn_format_download:
-                    mListener.onFormatDownloadClicked(vh.position);
+                    mListener.onFormatDownloadClicked(vh.getAdapterPosition());
                     break;
 
                 case R.id.btn_format_open:
-                    mListener.onFormatOpenClicked(vh.position);
+                    mListener.onFormatOpenClicked(vh.getAdapterPosition());
                     break;
 
                 case R.id.btn_format_share:
-                    mListener.onFormatShareClicked(vh.position);
+                    mListener.onFormatShareClicked(vh.getAdapterPosition());
                     break;
             }
         }

@@ -5,21 +5,19 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.drivfe.gimmethefile.Config;
 import com.drivfe.gimmethefile.R;
+import com.drivfe.gimmethefile.databinding.ActivityDownloadBinding;
 import com.drivfe.gimmethefile.download.DownloadEntry;
 import com.drivfe.gimmethefile.download.DownloadManager;
 import com.drivfe.gimmethefile.download.DownloadService;
@@ -31,35 +29,14 @@ import com.drivfe.gimmethefile.utilities.HelperUtils;
 
 import java.io.File;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import rx.functions.Action1;
 import timber.log.Timber;
 
 public class DownloadActivity extends AppCompatActivity implements DownloadListener {
     private static final String EXTRA_ENTRY = "EXTRA_ENTRY";
 
-    @BindView(R.id.pb_download_progress)
-    ProgressBar mDownloadProgress;
-    @BindView(R.id.tv_download_percentage)
-    TextView mProgressText;
-    @BindView(R.id.tv_download_title)
-    TextView mTitleText;
-    @BindView(R.id.tv_download_extractor)
-    TextView mExtractorText;
-    @BindView(R.id.tv_download_bytes)
-    TextView mBytesText;
-    @BindView(R.id.btn_download_cancel)
-    Button mCancelButton;
-    @BindView(R.id.btn_download_pause_resume)
-    Button mPauseButton;
-    @BindView(R.id.btn_download_open)
-    Button mOpenButton;
-
-    //    private DownloadService mDownloadService;
-//    private boolean mBound = false;
-    DownloadManager DMInstance = DownloadManager.getInstance();
+    private ActivityDownloadBinding binding;
+    private DownloadManager DMInstance = DownloadManager.getInstance();
     private MediaFileBucket mBucket;
     private DownloadEntry mEntry;
     private boolean mShouldStartService = true;
@@ -68,11 +45,9 @@ public class DownloadActivity extends AppCompatActivity implements DownloadListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.d("onCreate");
-        setContentView(R.layout.activity_download);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_download);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ButterKnife.bind(this);
 
         mEntry = (DownloadEntry) getIntent().getSerializableExtra(EXTRA_ENTRY);
         DMInstance = DownloadManager.getInstance();
@@ -106,15 +81,28 @@ public class DownloadActivity extends AppCompatActivity implements DownloadListe
     }
 
     private void initViews() {
-        mExtractorText.setText(mBucket.extractor.toUpperCase());
-        mTitleText.setText(mBucket.title);
-        mBytesText.setText("Starting...");
+        binding.downloadContent.btnDownloadOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOpenClicked();
+            }
+        });
+
+        binding.downloadContent.btnDownloadCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDownloadCancelClicked();
+            }
+        });
+
+        binding.downloadContent.tvDownloadExtractor.setText(mBucket.extractor.toUpperCase());
+        binding.downloadContent.tvDownloadTitle.setText(mBucket.title);
+        binding.downloadContent.tvDownloadBytes.setText("Starting...");
 
         if (mEntry.getLength() != -1)
             onDownloadProgress(mEntry.getProgress(), mEntry.getLength());
     }
 
-    @OnClick(R.id.btn_download_open)
     public void onOpenClicked() {
         Intent openFileIntent = new Intent();
         openFileIntent.setAction(Intent.ACTION_VIEW);
@@ -127,7 +115,6 @@ public class DownloadActivity extends AppCompatActivity implements DownloadListe
         }
     }
 
-    @OnClick(R.id.btn_download_cancel)
     public void onDownloadCancelClicked() {
 //        if (mBound)
 //            mDownloadService.cancelDownload();
@@ -150,18 +137,18 @@ public class DownloadActivity extends AppCompatActivity implements DownloadListe
     public void onDownloadProgress(long progress, long total) {
         Timber.d("onDownloadProgress: " + progress + "/" + total);
         int percentage = (int) ((float) progress / (float) total * 100f);
-        mDownloadProgress.setProgress(percentage);
-        mProgressText.setText(percentage + "%");
+        binding.downloadContent.pbDownloadProgress.setProgress(percentage);
+        binding.downloadContent.tvDownloadPercentage.setText(percentage + "%");
 
-        mBytesText.setText(Formatter.formatFileSize(this, progress) + "/" + Formatter.formatFileSize(this, total));
+        binding.downloadContent.tvDownloadBytes.setText(Formatter.formatFileSize(this, progress) + "/" + Formatter.formatFileSize(this, total));
     }
 
     @Override
     public void onDownloadFinished(File file) {
         Timber.d("onDownloadFinished");
-        mCancelButton.setEnabled(false);
-        mPauseButton.setEnabled(false);
-        mOpenButton.setVisibility(View.VISIBLE);
+        binding.downloadContent.btnDownloadCancel.setEnabled(false);
+        binding.downloadContent.btnDownloadPauseResume.setEnabled(false);
+        binding.downloadContent.btnDownloadOpen.setVisibility(View.VISIBLE);
         mShouldStartService = false;
     }
 
@@ -173,7 +160,7 @@ public class DownloadActivity extends AppCompatActivity implements DownloadListe
     @Override
     public void onDownloadPaused() {
         //TODO: pause ui
-        mPauseButton.setText("Resume");
+        binding.downloadContent.btnDownloadPauseResume.setText("Resume");
     }
 
     @Override

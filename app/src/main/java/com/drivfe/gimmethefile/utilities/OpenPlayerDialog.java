@@ -2,26 +2,26 @@ package com.drivfe.gimmethefile.utilities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.view.LayoutInflater;
 
 import com.drivfe.gimmethefile.R;
 import com.drivfe.gimmethefile.adapters.PlayerAdapter;
+import com.drivfe.gimmethefile.databinding.OpenPlayerDialogBinding;
 
-public class OpenPlayerDialog extends AppCompatDialog {
-    public OpenPlayerDialog(Context context, PlayerAdapter.PlayerItemClickListener listener) {
+class OpenPlayerDialog extends AppCompatDialog {
+    OpenPlayerDialog(Context context, PlayerAdapter.PlayerItemClickListener listener) {
         super(context);
-        View v = ((Activity) context).getLayoutInflater().inflate(R.layout.openplayerdialog, null);
-        RecyclerView playersList = (RecyclerView) v.findViewById(R.id.rv_openplayer);
-        setContentView(v);
+        OpenPlayerDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.open_player_dialog, null, false);
+        setContentView(binding.getRoot());
         setTitle("Open with...");
 
-        playersList.setHasFixedSize(true);
-        playersList.setLayoutManager(new LinearLayoutManager(context));
-        playersList.setAdapter(new PlayerAdapter(context, listener));
+        binding.rvOpenplayer.setHasFixedSize(true);
+        binding.rvOpenplayer.setLayoutManager(new LinearLayoutManager(context));
+        binding.rvOpenplayer.setAdapter(new PlayerAdapter(context, listener));
 
         Point p = new Point();
         ((Activity) context).getWindowManager().getDefaultDisplay().getSize(p);
